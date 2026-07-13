@@ -1,0 +1,95 @@
+[build-system]
+requires = ["hatchling>=1.27"]
+build-backend = "hatchling.build"
+
+[project]
+name = "synthetic-citizen-lab"
+version = "0.1.0"
+description = "Research MVP for synthetic-citizen policy response pretests."
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "duckdb>=1.3.0",
+    "pandas>=2.2.0",
+    "pyarrow>=20.0.0",
+    "pydantic>=2.11.0",
+    "pydantic-settings>=2.9.0",
+]
+
+[project.scripts]
+scl-inspect-data = "synthetic_citizen_lab.cli:main"
+scl-profile-categories = "synthetic_citizen_lab.profile_cli:main"
+
+[dependency-groups]
+dev = [
+    "pytest>=8.4.0",
+    "ruff>=0.12.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.4.0",
+    "ruff>=0.12.0",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/synthetic_citizen_lab"]
+
+[tool.ruff]
+target-version = "py311"
+line-length = 88
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = ["ALL"]
+ignore = [
+    "COM812",
+    "CPY001",
+    "D203",
+    "D213",
+    "FBT001",
+    "FBT002",
+    "FIX002",
+    "ISC001",
+    "TD002",
+    "TD003",
+]
+fixable = ["ALL"]
+unfixable = []
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**/*.py" = [
+    "ARG",
+    "D",
+    "PLR2004",
+    "S101",
+    "SLF001",
+]
+"src/synthetic_citizen_lab/data/inspector.py" = [
+    "S608",
+]
+"src/synthetic_citizen_lab/data/profiler.py" = [
+    "S608",
+]
+"src/synthetic_citizen_lab/data/profile_queries.py" = [
+    "S608",
+]
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+docstring-code-format = true
+docstring-code-line-length = "dynamic"
+
+[tool.pytest.ini_options]
+minversion = "8.0"
+testpaths = ["tests"]
+addopts = [
+    "-ra",
+    "--strict-config",
+    "--strict-markers",
+]
+filterwarnings = ["error"]
