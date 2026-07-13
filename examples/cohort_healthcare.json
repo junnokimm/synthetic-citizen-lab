@@ -1,0 +1,16 @@
+{
+  "name": "seoul_gyeonggi_women_60_79_bp_bs_risk",
+  "filters": {
+    "age_min": 60,
+    "age_max": 79,
+    "sexes": ["여자"],
+    "regions": ["서울", "경기"],
+    "blood_pressure_statuses": ["고혈압전단계", "고혈압"],
+    "blood_sugar_statuses": ["공복혈당장애", "당뇨"]
+  },
+  "sampling": {
+    "sample_size": 20,
+    "seed": 42,
+    "method": "deterministic_random"
+  }
+}

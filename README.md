@@ -39,10 +39,25 @@ Phase 2.5 profiles cohort-relevant categories and narrative length statistics:
 This writes `outputs/data_inspection/category_profiles.json`,
 `outputs/data_inspection/category_profiles.csv`, and `docs/column_profile.md`.
 
+Phase 3 adds safe cohort counting and deterministic seeded sampling:
+
+```bash
+.venv/bin/scl-cohort options data/raw/ko_KR.parquet --column region
+.venv/bin/scl-cohort districts data/raw/ko_KR.parquet --region 서울
+.venv/bin/scl-cohort occupations data/raw/ko_KR.parquet --search 자영
+.venv/bin/scl-cohort count data/raw/ko_KR.parquet --region 서울 --sex 여자 --age-min 40 --age-max 60
+.venv/bin/scl-cohort sample data/raw/ko_KR.parquet --config examples/cohort_healthcare.json --output-dir outputs/cohorts
+```
+
+Sampling uses `uuid` as the Persona ID and orders candidates by
+`md5(uuid || '|' || seed)`, so the same source fingerprint, filter, sample size,
+and seed return the same ID list in the same order. Cohort exports include
+`cohort.json`, `sample_ids.csv`, and `sample_preview.csv`. Preview/export columns
+exclude direct name/address fields and narrative persona text by default.
+
 The following are intentionally **not** implemented yet:
 
 - Streamlit dashboard
-- cohort filtering
 - response engines or LLM calls
 - experiment runner and exports
 

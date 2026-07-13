@@ -19,6 +19,7 @@ dependencies = [
 [project.scripts]
 scl-inspect-data = "synthetic_citizen_lab.cli:main"
 scl-profile-categories = "synthetic_citizen_lab.profile_cli:main"
+scl-cohort = "synthetic_citizen_lab.cohort_cli:main"
 
 [dependency-groups]
 dev = [
@@ -72,6 +73,15 @@ unfixable = []
     "S608",
 ]
 "src/synthetic_citizen_lab/data/profile_queries.py" = [
+    "S608",
+]
+"src/synthetic_citizen_lab/cohort/options.py" = [
+    "S608",
+]
+"src/synthetic_citizen_lab/cohort/query.py" = [
+    "S608",
+]
+"src/synthetic_citizen_lab/cohort/sampler.py" = [
     "S608",
 ]
 

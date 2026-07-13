@@ -1,0 +1,105 @@
+"""Cohort filter constants derived from Phase 2.5 profile review."""
+
+from typing import Final
+
+PERSONA_ID_COLUMN: Final[str] = "uuid"
+EXCLUDED_COLUMNS: Final[tuple[str, ...]] = (
+    "first_name",
+    "middle_name",
+    "last_name",
+    "street_number",
+    "street_name",
+    "unit",
+    "city",
+    "postcode",
+)
+NARRATIVE_COLUMNS: Final[tuple[str, ...]] = (
+    "professional_persona",
+    "finance_persona",
+    "healthcare_persona",
+    "sports_persona",
+    "arts_persona",
+    "travel_persona",
+    "culinary_persona",
+    "persona",
+    "detailed_persona",
+    "family_persona",
+)
+PREVIEW_COLUMNS: Final[tuple[str, ...]] = (
+    "uuid",
+    "age",
+    "sex",
+    "region",
+    "district",
+    "marital_status",
+    "education_level",
+    "occupation",
+    "economic_activity_status",
+    "income_bracket",
+    "bmi_status",
+    "blood_pressure_status",
+    "blood_sugar_status",
+    "smoking_status",
+    "drinking_status",
+)
+INCOME_BRACKET_ORDER: Final[tuple[str, ...]] = (
+    "해당없음",
+    "85만원미만",
+    "85~150만원",
+    "150~250만원",
+    "250~350만원",
+    "350~450만원",
+    "450~550만원",
+    "550~650만원",
+    "650~800만원",
+    "800~1000만원",
+    "1000만원이상",
+)
+BIG_FIVE_TRAITS: Final[tuple[str, ...]] = (
+    "openness",
+    "conscientiousness",
+    "extraversion",
+    "agreeableness",
+    "neuroticism",
+)
+CATEGORICAL_ALLOWED: Final[dict[str, tuple[str, ...]]] = {
+    "sex": ("여자", "남자"),
+    "education_level": (
+        "고등학교",
+        "4년제 대학교",
+        "2~3년제 전문대학",
+        "중학교",
+        "초등학교",
+        "대학원",
+        "무학",
+    ),
+    "economic_activity_status": ("취업자", "비경제활동인구", "실업자"),
+    "income_bracket": INCOME_BRACKET_ORDER,
+    "bmi_status": ("정상", "비만", "과체중", "고도비만", "저체중"),
+    "blood_pressure_status": ("정상", "주의", "고혈압전단계", "고혈압", "저혈압"),
+    "blood_sugar_status": ("정상", "공복혈당장애", "당뇨"),
+    "waist_status": ("정상", "복부비만"),
+    "smoking_status": ("비흡연", "현재흡연", "금연"),
+    "drinking_status": ("음주", "비음주"),
+}
+FILTER_FIELD_TO_COLUMN: Final[dict[str, str]] = {
+    "sexes": "sex",
+    "regions": "region",
+    "districts": "district",
+    "marital_statuses": "marital_status",
+    "education_levels": "education_level",
+    "bachelors_fields": "bachelors_field",
+    "occupations": "occupation",
+    "family_types": "family_type",
+    "housing_types": "housing_type",
+    "housing_tenures": "housing_tenure",
+    "military_statuses": "military_status",
+    "economic_activity_statuses": "economic_activity_status",
+    "income_brackets": "income_bracket",
+    "bmi_statuses": "bmi_status",
+    "blood_pressure_statuses": "blood_pressure_status",
+    "blood_sugar_statuses": "blood_sugar_status",
+    "waist_statuses": "waist_status",
+    "smoking_statuses": "smoking_status",
+    "drinking_statuses": "drinking_status",
+}
