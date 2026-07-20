@@ -1,93 +1,101 @@
-# 합성 시민 Agent 기반 정책 반응 가상 실험 환경
+# Synthetic Persona Research System
 
-Research MVP for exploring how Korean synthetic persona cohorts respond to policy
-and public-service scenario explanations under controlled prompt, model,
-temperature, seed, and repeat conditions.
+한국형 합성 페르소나 데이터를 활용하여 정책·서비스·기능에 대한 에이전트 반응을 생성하고, 전체 및 코호트별 반응 차이, 소수·특이 반응, 특정 에이전트의 후속 응답과 반복 안정성을 탐색하기 위한 모듈형 가상 실험 환경입니다.
 
-## Non-claim
+## 프로젝트 목적
 
-This project does **not** predict real citizen opinion, real policy acceptance
-rates, election outcomes, or representative population projections. It is an
-exploratory pretest tool for synthetic-persona response patterns and potential
-acceptance barriers under explicitly configured experimental conditions.
+단순히 합성 페르소나에게 질문하고 응답을 생성하는 것을 넘어, 다음 연구 과정을 하나의 환경에서 지원하는 것을 목표로 합니다.
 
-## Phase 1 status
+* 연구 목적에 맞는 페르소나 코호트 구성
+* 정책·서비스·기능에 대한 에이전트별 반응 생성
+* 전체·코호트·대안별 반응 비교
+* 전체 요약에서 사라질 수 있는 소수 반응 탐색
+* 특정 에이전트의 반응 원인과 수용 조건에 대한 후속 질문
+* 동일 질문 반복을 통한 기본적인 응답 안정성 확인
+* 실험 조건과 결과 저장 및 내보내기
 
-This repository currently contains only the Python project foundation:
+## 핵심 흐름
 
-- installable `src/synthetic_citizen_lab` package
-- `pyproject.toml` with initial runtime and dev dependencies
-- pytest and ruff configuration
-- package import smoke test
-- `.env.example`
-
-Phase 2 adds safe raw Parquet inspection:
-
-```bash
-.venv/bin/scl-inspect-data data/raw/ko_KR.parquet --output-dir outputs/data_inspection --sample-limit 5
+```text
+합성 페르소나 데이터 조회
+  → 코호트 조건 및 seed 설정
+  → 시나리오·질문 입력
+  → 에이전트별 반응 생성
+  → 전체·코호트·대안별 결과 분석
+  → 소수·특이 반응 후보 탐색
+  → 특정 에이전트 후속 질문
+  → 동일 질문 반복 비교
+  → 결과 저장 및 내보내기
 ```
 
-This writes `outputs/data_inspection/inspection.json` and refreshes
-`docs/data_dictionary.md` as a non-authoritative draft.
+## MVP 주요 기능
 
-Phase 2.5 profiles cohort-relevant categories and narrative length statistics:
+* Parquet·DuckDB 기반 대규모 페르소나 조건 조회
+* 조건과 seed 기반 재현 가능한 코호트 추출
+* 정책·서비스·기능 시나리오 및 질문 설정
+* 에이전트별 자유서술형·구조화 응답 생성
+* 전체 및 코호트별 태도·근거 비교
+* 빈도 기반 소수 반응 후보 확인
+* 특정 에이전트 프로필 및 응답 이력 조회
+* 제한된 후속 질문
+* 동일 질문 2~3회 반복 비교
+* CSV·JSON 결과 내보내기
 
-```bash
-.venv/bin/scl-profile-categories data/raw/ko_KR.parquet --output-dir outputs/data_inspection --top-n 50
+## 기술 구조
+
+```text
+Synthetic Persona Parquet
+  → DuckDB
+  → Cohort Filter & Seeded Sampling
+  → Scenario & Question Manager
+  → Agent Response Engine
+  → Result Store
+  → Analysis Dashboard
 ```
 
-This writes `outputs/data_inspection/category_profiles.json`,
-`outputs/data_inspection/category_profiles.csv`, and `docs/column_profile.md`.
+### 주요 기술 후보
 
-Phase 3 adds safe cohort counting and deterministic seeded sampling:
+* Python
+* DuckDB
+* Parquet / PyArrow
+* Pydantic
+* Streamlit
+* Plotly
+* pytest
 
-```bash
-.venv/bin/scl-cohort options data/raw/ko_KR.parquet --column region
-.venv/bin/scl-cohort districts data/raw/ko_KR.parquet --region 서울
-.venv/bin/scl-cohort occupations data/raw/ko_KR.parquet --search 자영
-.venv/bin/scl-cohort count data/raw/ko_KR.parquet --region 서울 --sex 여자 --age-min 40 --age-max 60
-.venv/bin/scl-cohort sample data/raw/ko_KR.parquet --config examples/cohort_healthcare.json --output-dir outputs/cohorts
+## 문서
+
+* [프로젝트 PRD](./PRD.md)
+* [세부 평가·데이터·화면 설계 부록](./PRD_APPENDIX.md)
+
+## 프로젝트 범위
+
+본 프로젝트는 합성 데이터와 생성 모델을 이용한 **반응 탐색 및 연구 지원 도구**입니다.
+
+다음 용도로 사용하지 않습니다.
+
+* 실제 한국 시민의 여론 또는 정책 수용률 예측
+* 합성 응답을 실제 인간 응답으로 간주
+* 합성 데이터의 인구 대표성 주장
+* 결과만을 이용한 실제 의사결정 자동화
+* 전체 원본 에이전트에 대한 대규모 LLM 전수 호출
+
+결과는 사용한 합성 데이터, 생성 모델, 프롬프트, 질문 및 코호트 조건 안에서 나타난 반응 패턴으로 제한하여 해석합니다.
+
+## 데이터 관리
+
+대규모 원본 페르소나 데이터는 저장소에 포함하지 않습니다.
+
+```gitignore
+data/raw/
+*.parquet
 ```
 
-Sampling uses `uuid` as the Persona ID and orders candidates by
-`md5(uuid || '|' || seed)`, so the same source fingerprint, filter, sample size,
-and seed return the same ID list in the same order. Cohort exports include
-`cohort.json`, `sample_ids.csv`, and `sample_preview.csv`. Preview/export columns
-exclude direct name/address fields and narrative persona text by default.
+실험의 재현성을 위해 다음 정보를 함께 기록합니다.
 
-The following are intentionally **not** implemented yet:
-
-- Streamlit dashboard
-- response engines or LLM calls
-- experiment runner and exports
-
-## Data safety rules
-
-- Treat `data/raw/ko_KR.parquet` as immutable source data.
-- Never commit raw persona data, generated samples, local databases, or `.env`
-  files.
-- Do not load the full raw Parquet into memory. In later phases, inspect metadata
-  and small previews through PyArrow or DuckDB projection, filter, and `LIMIT`
-  queries.
-- Do not write derived artifacts into `data/raw/`.
-
-## Setup
-
-Create and activate a local virtual environment, then install the package and
-development tools:
-
-```bash
-python3 -m venv .venv
-.venv/bin/python -m pip install --upgrade pip
-.venv/bin/python -m pip install -e '.[dev]'
-```
-
-## Verification
-
-```bash
-.venv/bin/ruff check .
-.venv/bin/python -m pytest
-.venv/bin/python -c "import synthetic_citizen_lab; print(synthetic_citizen_lab.__version__)"
-```
-
-All commands must pass without an API key.
+* 원본 데이터 버전 또는 fingerprint
+* 코호트 조건 및 sampling seed
+* 시나리오와 질문 버전
+* 모델 및 프롬프트 조건
+* 실행 회차와 생성 결과
+* 에이전트별 응답 및 구조화 정보
