@@ -2,7 +2,7 @@
 
 These profiles describe distributions inside a synthetic dataset only; they are not Korean population statistics.
 
-Source: `/private/var/folders/vx/cb6syl497_v7jfjxl6rxdrc40000gn/T/pytest-of-junnokimm/pytest-16/test_profile_parquet_summarize0/fixture.parquet`
+Source: `/private/var/folders/vx/cb6syl497_v7jfjxl6rxdrc40000gn/T/pytest-of-junnokimm/pytest-9/test_profile_parquet_summarize0/fixture.parquet`
 Rows: 4
 
 ## Direct UI candidates
