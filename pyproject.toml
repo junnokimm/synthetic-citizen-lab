@@ -84,6 +84,9 @@ unfixable = []
 "src/synthetic_citizen_lab/cohort/sampler.py" = [
     "S608",
 ]
+"src/synthetic_citizen_lab/experiments/context.py" = [
+    "S608",
+]
 
 [tool.ruff.lint.pydocstyle]
 convention = "google"
