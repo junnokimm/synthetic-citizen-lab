@@ -13,6 +13,13 @@ from synthetic_citizen_lab.experiments.context import (
     PersonaSourceNotFoundError,
     load_persona_contexts,
 )
+from synthetic_citizen_lab.experiments.engines import (
+    EngineRequest,
+    GeneratedResponse,
+    MockResponseEngine,
+    ResponseEngine,
+    ResponseGenerationError,
+)
 from synthetic_citizen_lab.experiments.models import (
     AutomaticEvaluationRecord,
     ComparisonRecord,
@@ -32,6 +39,11 @@ from synthetic_citizen_lab.experiments.models import (
     ScenarioVariantLabel,
     ScenarioVariantRecord,
     StructuredResponse,
+)
+from synthetic_citizen_lab.experiments.runner import (
+    RunArtifacts,
+    RunExperimentRequest,
+    run_experiment,
 )
 from synthetic_citizen_lab.experiments.storage import (
     load_comparison_records,
@@ -54,11 +66,14 @@ __all__ = (
     "AutomaticEvaluationRecord",
     "CohortArtifactNotFoundError",
     "ComparisonRecord",
+    "EngineRequest",
     "FollowUpRecord",
+    "GeneratedResponse",
     "GenerationConfig",
     "HumanEvaluationRecord",
     "MissingPersonaColumnsError",
     "MissingSampledPersonasError",
+    "MockResponseEngine",
     "PersonaContext",
     "PersonaContextLevel",
     "PersonaContextP1",
@@ -71,9 +86,13 @@ __all__ = (
     "QuestionRelation",
     "QuestionSetRecord",
     "QuestionType",
+    "ResponseEngine",
+    "ResponseGenerationError",
     "ResponseRecord",
     "ResponseStatus",
     "ReviewStatus",
+    "RunArtifacts",
+    "RunExperimentRequest",
     "RunRecord",
     "ScenarioRecord",
     "ScenarioVariantLabel",
@@ -87,6 +106,7 @@ __all__ = (
     "load_response_records",
     "load_run_record",
     "load_scenario_record",
+    "run_experiment",
     "write_comparison_records",
     "write_follow_up_record",
     "write_project_record",

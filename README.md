@@ -67,6 +67,37 @@ Synthetic Persona Parquet
 
 * [프로젝트 PRD](./PRD.md)
 * [세부 평가·데이터·화면 설계 부록](./PRD_APPENDIX.md)
+* [코호트 샘플러 CLI](./docs/cohort_sampler.md)
+* [실험 메타데이터 CLI](./docs/experiment_cli.md)
+
+## 현재 CLI 표면
+
+현재 구현된 연구용 CLI는 다음과 같습니다.
+
+* `.venv/bin/scl-inspect-data`: 원천 Parquet 안전 점검
+* `.venv/bin/scl-profile-categories`: 카테고리 프로파일링
+* `.venv/bin/scl-cohort`: 코호트 조건 조회 및 seed 기반 샘플링
+* `.venv/bin/scl-experiment`: 실험 메타데이터 관리
+
+`scl-experiment`의 현재 범위는 phase 3 기준으로 다음까지만 포함합니다.
+
+* 프로젝트 생성
+* 시나리오 저장
+* 질문 세트 저장
+* 저장된 project/scenario/question-set 조회
+* deterministic mock run 실행
+
+아직 포함되지 않는 것은 다음과 같습니다.
+
+* 반복 비교
+* follow-up 실행
+* export
+
+질문 유형은 현재 `ORIGINAL`과 `SAME_QUESTION_REPEAT`만 지원합니다.
+`PARAPHRASE`와 `FOLLOW_UP_LIMITED`는 이후 단계 범위입니다.
+
+현재 `run`은 실제 LLM/API 호출이 아니라 deterministic mock engine을 사용해
+`run.json`과 `responses.jsonl`을 생성합니다.
 
 ## 프로젝트 범위
 
